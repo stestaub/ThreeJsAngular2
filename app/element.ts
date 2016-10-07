@@ -33,6 +33,4 @@ export class IfcGeometryElement extends THREE.Mesh {
     this.selected = false;
   }
 
-
-
 }

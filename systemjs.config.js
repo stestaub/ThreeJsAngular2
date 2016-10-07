@@ -25,12 +25,16 @@
       'angular2-in-memory-web-api': 'npm:angular2-in-memory-web-api',
       'three': 'npm:three/build/three.js',
       'tween.js': 'npm:tween.js/src/Tween.js',
-      'three-trackballcontrols': 'npm:three-trackballcontrols/index.js'
+      'three-trackballcontrols/trackballcontrols': 'npm:three-trackballcontrols'
     },
     // packages tells the System loader how to load when no filename and/or no extension
     packages: {
       app: {
         main: './main.js',
+        defaultExtension: 'js'
+      },
+      'three-trackballcontrols/trackballcontrols': {
+        main: 'index.js',
         defaultExtension: 'js'
       },
       rxjs: {

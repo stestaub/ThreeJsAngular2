@@ -1,3 +1,5 @@
+/// <reference path="../typings/globals/three-trackballcontrols/index.d.ts" />
+
 import { Injectable } from '@angular/core';
 import { Inject } from '@angular/core';
 
@@ -15,6 +17,10 @@ import Vector2 = THREE.Vector2;
 import {IfcGeometryElement} from "./element";
 import {Key} from "readline";
 
+// this was the only way I found to get compiler working.
+var TrackballControls = require("three-trackballcontrols/trackballcontrols");
+
+
 @Injectable()
 export class RenderService {
   // private stats: Stats;
@@ -28,6 +34,7 @@ export class RenderService {
   public mouse: Vector2;
 
   public currentObject: IfcGeometryElement;
+  public trackballControls;
 
   constructor(@Inject(SceneService) sceneLoader:SceneService) {
     this.sceneLoader = sceneLoader;
@@ -35,7 +42,6 @@ export class RenderService {
   }
 
   public init(container: HTMLElement) {
-
     const width = window.innerWidth;
     const height = window.innerHeight;
 
@@ -48,6 +54,11 @@ export class RenderService {
     // Set camera
     this.camera = new THREE.PerspectiveCamera(45, width/height);
     this.camera.position.set(0, 0, 100);
+
+    this.trackballControls = new TrackballControls( this.camera );
+    this.trackballControls.addEventListener('change', _ => { this.render() });
+    this.trackballControls.rotationSpeed = 3;
+    this.trackballControls.panSpeed = 0.2;
 
     // Add the renderer to the container.
     container.appendChild(this.renderer.domElement);
@@ -63,6 +74,7 @@ export class RenderService {
 
     // start animation
     this.animate();
+    this.render();
   }
 
   private registerEvents() {
@@ -72,8 +84,8 @@ export class RenderService {
     // bind to window resizes
     window.addEventListener('resize', _ => this.onResize());
 
-    window.addEventListener('click', _ => this.sceneLoader.selectElement(this.currentObject));
-    window.addEventListener('keydown', (event) => this.handleKeyDownEvent(event));
+    // we will only listen to click events on the canvas
+    this.renderer.domElement.addEventListener('click', _ => this.sceneLoader.selectElement(this.currentObject));
   }
 
   private onMouseMove( event ) {
@@ -112,6 +124,12 @@ export class RenderService {
       this.currentObject = null;
     }
 
+    this.trackballControls.update();
+
+    this.render();
+  }
+
+  public render() {
     this.renderer.render(this.scene, this.camera);
   }
 
@@ -123,23 +141,7 @@ export class RenderService {
     this.camera.updateProjectionMatrix();
 
     this.renderer.setSize(width, height);
-  }
-
-  private handleKeyDownEvent(event:KeyboardEvent):any {
-    console.log(event.keyCode);
-    switch(event.keyCode) {
-      case 39: // arrow right
-        this.camera.position.setX(this.camera.position.x - 1);
-        break;
-      case 37: // arrow left
-        this.camera.position.setX(this.camera.position.x + 1);
-        break;
-      case 38: // arrow up
-        this.camera.position.setY(this.camera.position.y - 1);
-        break;
-      case 40: // arrow up
-        this.camera.position.setY(this.camera.position.y + 1);
-        break;
-    }
+    this.trackballControls.update();
+    this.render();
   }
 }

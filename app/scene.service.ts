@@ -20,7 +20,6 @@ export class SceneService {
   public clippingPlane: THREE.Plane;
   private clippingActive: boolean;
 
-
   private objects: IfcGeometryElement[];
 
   constructor() {
@@ -82,24 +81,24 @@ export class SceneService {
   // Load some dummy objects here. Later we would call bim server to load the objects from
   public loadObjects() {
     // get the objects from bim server
-    let geometry = new THREE.SphereBufferGeometry(20, 200, 200);
-    let material = new THREE.MeshPhongMaterial();
-    material.color = new Color(0xa0af50);
-    material.shading = THREE.SmoothShading;
-    material.side = THREE.DoubleSide;
+    let geometry1 = new THREE.SphereGeometry(20, 200, 200);
+    let material1 = new THREE.MeshPhongMaterial();
+    material1.color = new Color(0xa0af50);
+    material1.shading = THREE.SmoothShading;
+    material1.side = THREE.DoubleSide;
     // Adding new geometry to the objects collection and to the scene;
-    this.objects[0] = new IfcGeometryElement("1", geometry, material);
+    this.objects[0] = new IfcGeometryElement("1", geometry1, material1);
     this.objects[0].position.set(-12, 8, -20);
     this.scene.add(this.objects[0]);
 
 
-    let geometry = new THREE.BoxGeometry(20, 20, 20);
-    let material = new THREE.MeshPhongMaterial();
-    material.color = new Color(0xa0af50);
-    material.shading = THREE.SmoothShading;
-    material.side = THREE.DoubleSide;
+    let geometry2 = new THREE.BoxGeometry(20, 20, 20);
+    let material2 = new THREE.MeshPhongMaterial();
+    material2.color = new Color(0xa0af50);
+    material2.shading = THREE.SmoothShading;
+    material2.side = THREE.DoubleSide;
     // Adding new geometry to the objects collection and to the scene;
-    this.objects[1] = new IfcGeometryElement("2", geometry, material);
+    this.objects[1] = new IfcGeometryElement("2", geometry2, material2);
     this.objects[1].position.set(29, 15, 5);
     this.scene.add(this.objects[1]);
   }
