@@ -25,7 +25,6 @@ import {SceneService} from "./scene.service";
       <tab heading="Common">
         <p [textContent]="'Current Object: ' + ((renderService.currentObject != null) ? renderService.currentObject.ifcId : '')"></p>
         <p [textContent]="'Selected Object: ' + ((sceneLoader.selectedElement != null) ? sceneLoader.selectedElement.ifcId : '')"></p>
-
       </tab>
       <tab heading="Lights">
         <div class="row">
@@ -34,6 +33,10 @@ import {SceneService} from "./scene.service";
           <point-light-control [pointLight] = "sceneLoader.pointLight1"></point-light-control>
           <point-light-control [pointLight] = "sceneLoader.pointLight2"></point-light-control>
         </div>
+      </tab>
+      <tab heading="clipping">
+        <button (click)="sceneLoader.toggleClipping()">Toggle Clipping</button>
+        <input type="number" step="0.5" [value]="sceneLoader.clippingPlane.constant" (change)="sceneLoader.clippingPlane.constant = $event.target.value">
       </tab>
     </tabset>
   </div>

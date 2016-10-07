@@ -13,6 +13,7 @@ import {SceneService} from "./scene.service";
 import Raycaster = THREE.Raycaster;
 import Vector2 = THREE.Vector2;
 import {IfcGeometryElement} from "./element";
+import {Key} from "readline";
 
 @Injectable()
 export class RenderService {
@@ -55,12 +56,14 @@ export class RenderService {
     // get a shortcut to the scene
     this.scene = this.sceneLoader.scene;
 
+    // Enable local clipping
+    this.renderer.localClippingEnabled = true;
+
     this.registerEvents();
 
     // start animation
     this.animate();
   }
-
 
   private registerEvents() {
     // track mouse movements to check for intersections and highlight them
@@ -69,7 +72,8 @@ export class RenderService {
     // bind to window resizes
     window.addEventListener('resize', _ => this.onResize());
 
-    window.addEventListener('click', _ => this.sceneLoader.selectElement(this.currentObject))
+    window.addEventListener('click', _ => this.sceneLoader.selectElement(this.currentObject));
+    window.addEventListener('keydown', (event) => this.handleKeyDownEvent(event));
   }
 
   private onMouseMove( event ) {
@@ -119,5 +123,23 @@ export class RenderService {
     this.camera.updateProjectionMatrix();
 
     this.renderer.setSize(width, height);
+  }
+
+  private handleKeyDownEvent(event:KeyboardEvent):any {
+    console.log(event.keyCode);
+    switch(event.keyCode) {
+      case 39: // arrow right
+        this.camera.position.setX(this.camera.position.x - 1);
+        break;
+      case 37: // arrow left
+        this.camera.position.setX(this.camera.position.x + 1);
+        break;
+      case 38: // arrow up
+        this.camera.position.setY(this.camera.position.y - 1);
+        break;
+      case 40: // arrow up
+        this.camera.position.setY(this.camera.position.y + 1);
+        break;
+    }
   }
 }

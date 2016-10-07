@@ -13,6 +13,7 @@ export class IfcGeometryElement extends THREE.Mesh {
   private deselectedColor: string;
   private selectedColor: string;
   private selected: boolean;
+  public clippingState: boolean;
 
   public constructor(ifcId: string, geometry: THREE.Geometry, material: THREE.Material ) {
     super(geometry, material);
