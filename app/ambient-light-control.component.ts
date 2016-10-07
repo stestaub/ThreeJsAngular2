@@ -8,15 +8,27 @@ import {SceneService} from "./scene.service";
 
 @Component({
   selector: 'ambient-light-control',
+  styles: [`
+    .col-sm-3 {
+      padding: 0;
+    }
+
+  `],
   template: `
+  <div class="col-sm-3">
+    <h4>{{title}}</h4>
     <button class="btn btn-sm {{lightState ? 'active' : ''}}" data-toggle="button" (click)="toggleLight()">Toggle light</button>
     <input type="color" [value]="color" (change)="setAmbientColor($event.target.value)">
     <input type="number" step="0.05" min="0" max="1" [value]="ambientLight.intensity" (change)="ambientLight.intensity = $event.target.value">
+  </div>
+
   `
 })
 export class AmbientLightControlComponent implements OnInit {
 
   @Input() ambientLight;
+  @Input() title: string;
+
   private lightState: boolean;
   public color: string;
 

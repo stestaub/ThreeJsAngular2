@@ -16,6 +16,8 @@ export class SceneService {
   public pointLight2: THREE.PointLight;
   public ambientLight: THREE.AmbientLight;
   public ambientColor: string;
+  public hemisphereLight: THREE.HemisphereLight;
+  public selectedElement: IfcGeometryElement;
 
   public lights: THREE.Light[];
 
@@ -43,6 +45,9 @@ export class SceneService {
 
     this.ambientColor = "#cccccc";
 
+    this.hemisphereLight = new THREE.HemisphereLight( 0xffffbb, 0x080820, 1 );
+    this.scene.add( this.hemisphereLight );
+
     this.pointLight1 = new THREE.PointLight(0xffffff);
     this.pointLight1.position.set(300, 0, 300);
     this.scene.add(this.pointLight1);
@@ -59,7 +64,7 @@ export class SceneService {
     let material = new THREE.MeshPhongMaterial();
     material.color = new Color(0xa0af50);
     material.shininess = 50;
-    material.reflectivity = 0.2;
+    material.reflectivity = 0.5;
 
     this.scene.rotateX(0.20);
     this.scene.rotateY(0.35);
