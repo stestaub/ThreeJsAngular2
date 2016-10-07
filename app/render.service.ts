@@ -26,7 +26,7 @@ export class RenderService {
   private raycaster: Raycaster;
   public mouse: Vector2;
 
-  public currentObject: string;
+  public currentObject: IfcGeometryElement;
 
   constructor(@Inject(SceneService) sceneLoader:SceneService) {
     this.sceneLoader = sceneLoader;
@@ -68,6 +68,8 @@ export class RenderService {
 
     // bind to window resizes
     window.addEventListener('resize', _ => this.onResize());
+
+    window.addEventListener('click', _ => this.sceneLoader.selectElement(this.currentObject))
   }
 
   private onMouseMove( event ) {
@@ -100,10 +102,10 @@ export class RenderService {
     var intersects = this.raycaster.intersectObjects( this.scene.children );
 
     if(intersects.length > 0) {
-      this.currentObject = (<IfcGeometryElement>intersects[0].object).ifcId;
+      this.currentObject = <IfcGeometryElement>intersects[0].object;
     }
     else {
-      this.currentObject = "No intersection"
+      this.currentObject = null;
     }
 
     this.renderer.render(this.scene, this.camera);

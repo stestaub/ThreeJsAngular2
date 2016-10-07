@@ -22,7 +22,11 @@ import {SceneService} from "./scene.service";
   template: `
   <div class="container-fluid sceneControls">
     <tabset>
-      <tab heading="Common"><p [textContent]="'Current Object: ' + renderService.currentObject"></p></tab>
+      <tab heading="Common">
+        <p [textContent]="'Current Object: ' + ((renderService.currentObject != null) ? renderService.currentObject.ifcId : '')"></p>
+        <p [textContent]="'Selected Object: ' + ((sceneLoader.selectedElement != null) ? sceneLoader.selectedElement.ifcId : '')"></p>
+
+      </tab>
       <tab heading="Lights">
         <div class="row">
           <ambient-light-control [title]="'Ambient'" [ambientLight] = "sceneLoader.ambientLight"></ambient-light-control>

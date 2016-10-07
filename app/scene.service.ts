@@ -29,7 +29,7 @@ export class SceneService {
     this.scene.background = new THREE.Color( 0xeaeaea );
     this.objects = [];
     this.lights = [];
-
+    this.selectedElement = null;
     this.setupLights();
   }
 
@@ -58,6 +58,7 @@ export class SceneService {
 
   }
 
+  // Load some dummy objects here. Later we would call bim server to load the objects from
   public loadObjects() {
     // get the objects from bim server
     let geometry = new THREE.BoxGeometry(20, 20, 20);
@@ -65,13 +66,31 @@ export class SceneService {
     material.color = new Color(0xa0af50);
     material.shininess = 50;
     material.reflectivity = 0.5;
-
-    this.scene.rotateX(0.20);
-    this.scene.rotateY(0.35);
-
     // Adding new geometry to the objects collection and to the scene;
     this.objects[0] = new IfcGeometryElement("1", geometry, material);
+    this.objects[0].position.set(-12, 8, 5);
     this.scene.add(this.objects[0]);
+
+
+    let geometry = new THREE.BoxGeometry(20, 20, 20);
+    let material = new THREE.MeshPhongMaterial();
+    material.color = new Color(0xa0af50);
+    material.shininess = 50;
+    material.reflectivity = 0.5;
+    // Adding new geometry to the objects collection and to the scene;
+    this.objects[1] = new IfcGeometryElement("2", geometry, material);
+    this.objects[1].position.set(29, 15, -20);
+    this.scene.add(this.objects[1]);
   }
 
+  selectElement(currentObject:IfcGeometryElement):any {
+    if(this.selectedElement != null) {
+      this.selectedElement.deselect();
+    }
+
+    if(currentObject != null) {
+      currentObject.select();
+    }
+    this.selectedElement = currentObject;
+  }
 }
