@@ -28,7 +28,6 @@ export class RenderService {
 
   public currentObject: string;
 
-
   constructor(@Inject(SceneService) sceneLoader:SceneService) {
     this.sceneLoader = sceneLoader;
     this.mouse = new THREE.Vector2(0,0);
@@ -42,22 +41,24 @@ export class RenderService {
     this.renderer = new THREE.WebGLRenderer({antialias: true});
     this.renderer.setPixelRatio(window.devicePixelRatio);
     this.renderer.setSize(width, height);
-    this.renderer.setClearColor(0x000000);
 
     this.raycaster = new THREE.Raycaster();
 
+    // Set camera
     this.camera = new THREE.PerspectiveCamera(45, width/height);
     this.camera.position.set(0, 0, 100);
 
+    // Add the renderer to the container.
     container.appendChild(this.renderer.domElement);
 
     this.sceneLoader.loadScene();
     // get a shortcut to the scene
     this.scene = this.sceneLoader.scene;
 
+    this.registerEvents();
+
     // start animation
     this.animate();
-    this.registerEvents();
   }
 
 
@@ -89,6 +90,7 @@ export class RenderService {
       .start();
   }
 
+  // The animation loop. This method is called on each animation frame.
   public animate() {
     window.requestAnimationFrame(_ => this.animate());
     TWEEN.update();

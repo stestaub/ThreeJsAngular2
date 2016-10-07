@@ -17,6 +17,8 @@ export class SceneService {
   public ambientLight: THREE.AmbientLight;
   public ambientColor: string;
 
+  public lights: THREE.Light[];
+
 
   private objects: IfcGeometryElement[];
 
@@ -24,38 +26,30 @@ export class SceneService {
     this.scene = new THREE.Scene();
     this.scene.background = new THREE.Color( 0xeaeaea );
     this.objects = [];
+    this.lights = [];
+
+    this.setupLights();
   }
 
   public loadScene() {
-
-    this.setupLights();
-
     this.loadObjects();
-  }
-
-  public turnOffAmbientLight() {
-    this.ambientLight.intensity = 0;
-  }
-
-  public turnOnAmbientLight() {
-    this.ambientLight.intensity = 1;
-  }
-
-  public setAmbientColor(color: string) {
-    this.ambientColor = color;
-    this.ambientLight.color = new THREE.Color(color);
   }
 
   private setupLights() {
     // Lights
     this.ambientLight = new THREE.AmbientLight(0xcccccc);
     this.scene.add(this.ambientLight);
+    this.ambientLight.intensity = 0.3;
 
     this.ambientColor = "#cccccc";
 
     this.pointLight1 = new THREE.PointLight(0xffffff);
     this.pointLight1.position.set(300, 0, 300);
     this.scene.add(this.pointLight1);
+
+    this.pointLight2 = new THREE.PointLight(0xffffff);
+    this.pointLight2.position.set(-100,-233, 300);
+    this.scene.add(this.pointLight2);
 
   }
 
@@ -65,7 +59,7 @@ export class SceneService {
     let material = new THREE.MeshPhongMaterial();
     material.color = new Color(0xa0af50);
     material.shininess = 50;
-    material.wireframe = true;
+    material.reflectivity = 0.2;
 
     this.scene.rotateX(0.20);
     this.scene.rotateY(0.35);
