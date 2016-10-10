@@ -16,9 +16,11 @@ import Raycaster = THREE.Raycaster;
 import Vector2 = THREE.Vector2;
 import {IfcGeometryElement} from "./element";
 import {Key} from "readline";
+import Vector3 = THREE.Vector3;
 
 // this was the only way I found to get compiler working.
 var TrackballControls = require("three-trackballcontrols/trackballcontrols");
+var OrbitControls = require("three-orbit-controls/orbit-controls")(THREE);
 
 
 @Injectable()
@@ -35,6 +37,8 @@ export class RenderService {
 
   public currentObject: IfcGeometryElement;
   public trackballControls;
+  public orbitControls;
+  private currentIntersection: Vector3;
 
   constructor(@Inject(SceneService) sceneLoader:SceneService) {
     this.sceneLoader = sceneLoader;
@@ -55,10 +59,6 @@ export class RenderService {
     this.camera = new THREE.PerspectiveCamera(45, width/height);
     this.camera.position.set(0, 0, 100);
 
-    this.trackballControls = new TrackballControls( this.camera );
-    this.trackballControls.addEventListener('change', _ => { this.render() });
-    this.trackballControls.rotationSpeed = 3;
-    this.trackballControls.panSpeed = 0.2;
 
     // Add the renderer to the container.
     container.appendChild(this.renderer.domElement);
@@ -71,6 +71,8 @@ export class RenderService {
     this.renderer.localClippingEnabled = true;
 
     this.registerEvents();
+
+    this.orbitControls = new OrbitControls( this.camera, this.renderer.domElement );
 
     // start animation
     this.animate();
@@ -85,7 +87,7 @@ export class RenderService {
     window.addEventListener('resize', _ => this.onResize());
 
     // we will only listen to click events on the canvas
-    this.renderer.domElement.addEventListener('click', _ => this.sceneLoader.selectElement(this.currentObject));
+    this.renderer.domElement.addEventListener('dblclick', _ => this.selectCurrentObject());
   }
 
   private onMouseMove( event ) {
@@ -118,13 +120,15 @@ export class RenderService {
     var intersects = this.raycaster.intersectObjects( this.scene.children );
 
     if(intersects.length > 0) {
+      this.currentIntersection = intersects[0].point;
+      console.log('Look at: ' + this.currentIntersection.x + ', ' + this.currentIntersection.y + ', ' + this.currentIntersection.z);
       this.currentObject = <IfcGeometryElement>intersects[0].object;
     }
     else {
       this.currentObject = null;
     }
 
-    this.trackballControls.update();
+    this.orbitControls.update();
 
     this.render();
   }
@@ -141,7 +145,15 @@ export class RenderService {
     this.camera.updateProjectionMatrix();
 
     this.renderer.setSize(width, height);
-    this.trackballControls.update();
     this.render();
+  }
+
+  // TODO: Make this more smooth...
+  // TODO: Check if not in rotation or pan mode
+  private selectCurrentObject():any {
+    this.sceneLoader.selectElement(this.currentObject);
+    if(this.currentObject != null) {
+      this.orbitControls.target = this.currentIntersection;
+    }
   }
 }

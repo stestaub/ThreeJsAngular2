@@ -30,6 +30,7 @@
     "stats.js": "^0.16.0",
     "systemjs": "0.19.27",
     "three": "0.80.1",
+    "three-orbit-controls": "^72.0.0",
     "three-trackballcontrols": "0.0.5",
     "tween.js": "16.3.5",
     "zone.js": "^0.6.23"

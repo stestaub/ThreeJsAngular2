@@ -25,6 +25,7 @@ import {SceneService} from "./scene.service";
       <tab heading="Common">
         <p [textContent]="'Current Object: ' + ((renderService.currentObject != null) ? renderService.currentObject.ifcId : '')"></p>
         <p [textContent]="'Selected Object: ' + ((sceneLoader.selectedElement != null) ? sceneLoader.selectedElement.ifcId : '')"></p>
+        <button (click)="toggleView()">Toggle View</button>
       </tab>
       <tab heading="Lights">
         <div class="row">
@@ -34,9 +35,15 @@ import {SceneService} from "./scene.service";
           <point-light-control [pointLight] = "sceneLoader.pointLight2"></point-light-control>
         </div>
       </tab>
-      <tab heading="clipping">
+      <tab heading="Clipping">
         <button (click)="sceneLoader.toggleClipping()">Toggle Clipping</button>
         <input type="number" step="0.5" [value]="sceneLoader.clippingPlane.constant" (change)="sceneLoader.clippingPlane.constant = $event.target.value">
+      </tab>
+      <tab heading="Camera Control">
+        Pan Spped: <input type="number" step="0.1" [value]="renderService.orbitControls.keyPanSpeed" (change)="renderService.trackballControls.keyPanSpeed = $event.target.value">
+        Rotation Speed: <input type="number" step="0.1" [value]="renderService.orbitControls.rotateSpeed" (change)="renderService.trackballControls.rotateSpeed = $event.target.value">
+        Zoom Speed: <input type="number" step="0.1" [value]="renderService.orbitControls.zoomSpeed" (change)="renderService.trackballControls.zoomSpeed = $event.target.value">
+        <button (click)="renderService.orbitControls.reset()">Reset Camera</button>
       </tab>
     </tabset>
   </div>
@@ -46,6 +53,12 @@ export class SceneControlComponent {
 
   constructor(private renderService: RenderService, private sceneLoader: SceneService) {
 
+  }
+
+  public toggleView() {
+    if(this.sceneLoader.selectedElement != null) {
+      this.sceneLoader.selectedElement.toggleDisplay();
+    }
   }
 
 }
