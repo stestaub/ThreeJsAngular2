@@ -40,9 +40,9 @@ import {SceneService} from "./scene.service";
         <input type="number" step="0.5" [value]="sceneLoader.clippingPlane.constant" (change)="sceneLoader.clippingPlane.constant = $event.target.value">
       </tab>
       <tab heading="Camera Control">
-        Pan Spped: <input type="number" step="0.1" [value]="renderService.orbitControls.keyPanSpeed" (change)="renderService.trackballControls.keyPanSpeed = $event.target.value">
-        Rotation Speed: <input type="number" step="0.1" [value]="renderService.orbitControls.rotateSpeed" (change)="renderService.trackballControls.rotateSpeed = $event.target.value">
-        Zoom Speed: <input type="number" step="0.1" [value]="renderService.orbitControls.zoomSpeed" (change)="renderService.trackballControls.zoomSpeed = $event.target.value">
+        Pan Spped: <input type="number" step="0.1" [value]="renderService.orbitControls.keyPanSpeed" (change)="renderService.orbitControls.keyPanSpeed = $event.target.value">
+        Rotation Speed: <input type="number" step="0.1" [value]="renderService.orbitControls.rotateSpeed" (change)="renderService.orbitControls.rotateSpeed = $event.target.value">
+        Zoom Speed: <input type="number" step="0.1" [value]="renderService.orbitControls.zoomSpeed" (change)="renderService.orbitControls.zoomSpeed = $event.target.value">
         <button (click)="renderService.orbitControls.reset()">Reset Camera</button>
       </tab>
     </tabset>
