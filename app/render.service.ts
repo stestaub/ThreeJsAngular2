@@ -120,7 +120,6 @@ export class RenderService {
 
     if(intersects.length > 0) {
       this.currentIntersection = intersects[0].point;
-      console.log('Look at: ' + this.currentIntersection.x + ', ' + this.currentIntersection.y + ', ' + this.currentIntersection.z);
       this.currentObject = <IfcGeometryElement>intersects[0].object;
     }
     else {

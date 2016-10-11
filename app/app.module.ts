@@ -8,10 +8,17 @@ import {SceneControlComponent} from "./scene-control.component";
 import {AmbientLightControlComponent} from "./ambient-light-control.component";
 import {PointLightControlComponent} from "./point-light-control.component";
 import { TabsModule } from "ng2-bootstrap/components/tabs"
+import {LoginComponent} from "./login.component";
 
 @NgModule({
   imports:      [ BrowserModule, FormsModule, TabsModule, HttpModule, JsonpModule ],
-  declarations: [ AppComponent, ViewerComponent, SceneControlComponent, AmbientLightControlComponent, PointLightControlComponent],
+  declarations: [ AppComponent,
+    ViewerComponent,
+    SceneControlComponent,
+    AmbientLightControlComponent,
+    PointLightControlComponent,
+      LoginComponent
+  ],
   bootstrap:    [ AppComponent ]
 })
 

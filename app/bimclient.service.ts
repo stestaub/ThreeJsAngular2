@@ -7,36 +7,32 @@ import { User } from './user';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 
+
+export enum ServerInterface {
+    AuthInterface
+}
+
 @Injectable()
 export class BimclientService {
 
-    private bimServerAdress: string = "http://52.164.244.112:8080/json";
+    protected bimServerAdress: string = "http://52.164.244.112:8080/json";
+    token: string;
 
-    constructor(private http: Http) {
+    constructor(protected http: Http) {
     }
 
-    public login(username: string, password: string) {
+    call(serverInterface: ServerInterface, method: string, params: any) : Observable<Response> {
         var data = {
-            "request":
+                "request":
                 {
-                    "interface":"AuthInterface",
-                    "method":"login",
-                    "parameters":
-                        {
-                            "username": username,
-                            "password": password
-                        }
-                }
+                    "interface": ServerInterface[serverInterface],
+                    "method": method,
+                    "parameters": params,
+
+                },
+                "token": this.token
         };
 
-        let response: Observable<Response> = this.http.post(this.bimServerAdress, data);
-        response.map(res => res.json().response.result)
-            .subscribe(
-                data => console.log(data),
-                err => console.error(err),
-                () => console.log('call completed'));
+        return this.http.post(this.bimServerAdress, data);
     }
-
-
-
 }
