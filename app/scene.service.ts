@@ -112,14 +112,12 @@ export class SceneService {
     var texture	= THREE.ImageUtils.loadTexture('/public/assets/images/textures/concrete.jpg');
     texture.repeat.set( 10, 10 );
     texture.wrapS	= texture.wrapT = THREE.RepeatWrapping;
-    var material	= new THREE.MeshPhongMaterial({
-      ambient		: 0x444444,
-      color		: 0xffffff,
-      shininess	: 0,
-      specular	: 0x888888,
-      shading		: THREE.SmoothShading,
-      map		: texture
-    });
+    let material: THREE.MeshPhongMaterial = new THREE.MeshPhongMaterial();
+    material.color = new Color(0xffffff);
+    material.shininess	= 0;
+    material.specular = new Color(0x888888);
+    material.shading = THREE.SmoothShading;
+    material.map = texture;
     var ground		= new THREE.Mesh( geometry, material );
     ground.scale.multiplyScalar(3);
     ground.position.y		= -20;
