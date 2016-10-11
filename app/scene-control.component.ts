@@ -6,7 +6,6 @@ import { Component } from '@angular/core';
 import { ViewerComponent } from "./viewer.component";
 import {RenderService} from "./render.service";
 import {SceneService} from "./scene.service";
-import {BimclientService} from "./bimclient.service";
 
 @Component({
   selector: 'scene-control',

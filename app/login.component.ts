@@ -13,6 +13,7 @@ import {UserService} from "./user.service";
     template: `
     <h4>Login</h4>
     <button (click)="login()">Login</button>
+    <span>Current User: {{userService.currentUser.name}}</span>
   `
 })
 export class LoginComponent {

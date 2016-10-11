@@ -1,8 +1,7 @@
-import {BimclientService, ServerInterface} from "./bimclient.service";
+import {BimServerService, ServerInterface} from "./bim-server.service";
 import { Injectable, Inject } from '@angular/core';
-import { Http, Response } from '@angular/http';
-import {Observable} from "rxjs/Observable";
 import {User} from "./user";
+import {BimServerResponse} from "./bim-server-response";
 
 @Injectable()
 export class UserService {
@@ -10,32 +9,43 @@ export class UserService {
     public loggedIn: boolean = false;
     public currentUser: User;
 
-    constructor(@Inject(BimclientService) private bimClient:BimclientService) {
+    constructor(@Inject(BimServerService) private bimClient:BimServerService) {
+        this.currentUser = new User();
     }
 
     public login(username: string, password: string) {
-        let response: Observable<Response>= this.bimClient.call(ServerInterface.AuthInterface, "login", { "username": username, "password": password });
-        response.map(this.extractData).subscribe(
-            (user) => this.loginSuccess(user),
-            this.loginError,
-            () => console.log('Call finished')
+        this.bimClient.call(ServerInterface.AuthInterface, "login",
+            { "username": username, "password": password },
+            (response: (BimServerResponse<string>)) => this.loginSuccess(response),
+            (response: (BimServerResponse<string>)) => this.loginError(response)
         );
     }
 
-    private extractData(data: Response) {
-        let token = data.json().response.result;
-        let user = new User();
-        user.token = token;
+    public loadCurrentUser() {
+        this.bimClient.call(ServerInterface.AuthInterface, "getLoggedInUser", {},
+            (response: (BimServerResponse<User>)) => this.extractSingle(response),
+            (response) => console.error(response.error)
+        );
+    }
+
+    private extractSingle(data: BimServerResponse<User>) : User {
+        let user: User = data.result;
+        console.log(user);
+        this.setUserData(user);
         return user;
     }
 
-    private loginSuccess(user) {
-        this.currentUser = user;
-        this.bimClient.token = user.token;
-        console.log(user.token)
+    private loginSuccess(response: BimServerResponse<string>) {
+        this.bimClient.token = response.result;
+        this.loadCurrentUser();
+        console.log(response.result);
     }
 
-    private loginError(error) {
-        console.log(error)
+    private loginError(response: BimServerResponse<string>) {
+        console.log(response.error);
+    }
+
+    private setUserData(user:User) {
+        this.currentUser = user
     }
 }

@@ -1,5 +1,3 @@
-/// <reference path="../typings/globals/three-trackballcontrols/index.d.ts" />
-
 import { Injectable } from '@angular/core';
 import { Inject } from '@angular/core';
 

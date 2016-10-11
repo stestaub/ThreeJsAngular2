@@ -6,14 +6,14 @@ import { ViewerComponent } from "./viewer.component";
 import { SceneControlComponent } from "./scene-control.component"
 import {RenderService} from "./render.service";
 import {SceneService} from "./scene.service";
-import {BimclientService} from "./bimclient.service";
+import {BimServerService} from "./bim-server.service";
 
 @Component({
   selector: 'three-app',
   template: `
   <scene-control></scene-control>
   <viewer style="height: 100%; width: 100%"></viewer>`,
-  providers: [RenderService, SceneService, BimclientService]
+  providers: [RenderService, SceneService, BimServerService]
 })
 export class AppComponent {
 
