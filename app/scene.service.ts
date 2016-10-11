@@ -20,12 +20,12 @@ export class SceneService {
   public clippingPlane: THREE.Plane;
   private clippingActive: boolean;
 
-  private objects: IfcGeometryElement[];
+  private objectsCache: IfcGeometryElement[];
 
   constructor() {
     this.scene = new THREE.Scene();
     this.scene.background = new THREE.Color( 0xeaeaea );
-    this.objects = [];
+    this.objectsCache = [];
     this.selectedElement = null;
     this.clippingPlane = new THREE.Plane( new THREE.Vector3( 0, -1, 0 ), 10 );
     this.setupLights();
@@ -47,10 +47,12 @@ export class SceneService {
 
     this.pointLight1 = new THREE.PointLight(0xffffff);
     this.pointLight1.position.set(300, 0, 300);
+    this.pointLight1.castShadow = true;
     this.scene.add(this.pointLight1);
 
     this.pointLight2 = new THREE.PointLight(0xffffff);
-    this.pointLight2.position.set(-100,-233, 300);
+    this.pointLight2.position.set(-200,-0, 0);
+    this.pointLight2.castShadow = true;
     this.scene.add(this.pointLight2);
 
   }
@@ -87,9 +89,9 @@ export class SceneService {
     material1.shading = THREE.SmoothShading;
     material1.side = THREE.DoubleSide;
     // Adding new geometry to the objects collection and to the scene;
-    this.objects[0] = new IfcGeometryElement("1", geometry1, material1);
-    this.objects[0].position.set(-12, 8, -20);
-    this.scene.add(this.objects[0]);
+    this.objectsCache["1"] = new IfcGeometryElement("1", geometry1, material1);
+    this.objectsCache["1"].position.set(-12, 8, -20);
+    this.scene.add(this.objectsCache["1"]);
 
 
     let geometry2 = new THREE.BoxGeometry(20, 20, 20);
@@ -98,9 +100,33 @@ export class SceneService {
     material2.shading = THREE.SmoothShading;
     material2.side = THREE.DoubleSide;
     // Adding new geometry to the objects collection and to the scene;
-    this.objects[1] = new IfcGeometryElement("2", geometry2, material2);
-    this.objects[1].position.set(29, 15, 5);
-    this.scene.add(this.objects[1]);
+    this.objectsCache["2"] = new IfcGeometryElement("2", geometry2, material2);
+    this.objectsCache["2"].position.set(29, 15, 5);
+    this.scene.add(this.objectsCache["2"]);
+
+    //////////////////////////////////////////////////////////////////////////////////
+    //		Ground
+    //////////////////////////////////////////////////////////////////////////////////
+
+    var geometry	= new THREE.CubeGeometry( 100, 0.2, 100);
+    var texture	= THREE.ImageUtils.loadTexture('/public/assets/images/textures/concrete.jpg');
+    texture.repeat.set( 10, 10 );
+    texture.wrapS	= texture.wrapT = THREE.RepeatWrapping;
+    var material	= new THREE.MeshPhongMaterial({
+      ambient		: 0x444444,
+      color		: 0xffffff,
+      shininess	: 0,
+      specular	: 0x888888,
+      shading		: THREE.SmoothShading,
+      map		: texture
+    });
+    var ground		= new THREE.Mesh( geometry, material );
+    ground.scale.multiplyScalar(3);
+    ground.position.y		= -20;
+    this.scene.add( ground );
+
+    ground.castShadow	= false;
+    ground.receiveShadow	= true;
   }
 
   selectElement(currentObject:IfcGeometryElement):any {
