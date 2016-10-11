@@ -4,12 +4,15 @@
 import { Component, OnInit, ElementRef } from '@angular/core';
 import { RenderService } from "./render.service";
 import {SceneService} from "./scene.service";
+import { BimclientService } from "./bimclient.service"
 
 @Component({
   selector: 'viewer',
   template: ''
 })
 export class ViewerComponent implements OnInit {
+
+  public bimServer: BimclientService;
 
   constructor(private _renderService: RenderService, private _domRef: ElementRef) {
   }

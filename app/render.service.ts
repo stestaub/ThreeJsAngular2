@@ -19,7 +19,6 @@ import {Key} from "readline";
 import Vector3 = THREE.Vector3;
 
 // this was the only way I found to get compiler working.
-var TrackballControls = require("three-trackballcontrols/trackballcontrols");
 var OrbitControls = require("three-orbit-controls/orbit-controls")(THREE);
 
 

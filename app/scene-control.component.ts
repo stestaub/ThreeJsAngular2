@@ -6,9 +6,11 @@ import { Component } from '@angular/core';
 import { ViewerComponent } from "./viewer.component";
 import {RenderService} from "./render.service";
 import {SceneService} from "./scene.service";
+import {BimclientService} from "./bimclient.service";
 
 @Component({
   selector: 'scene-control',
+  providers: [BimclientService],
   styles: [`
     .sceneControls {
       position: absolute;
@@ -26,6 +28,7 @@ import {SceneService} from "./scene.service";
         <p [textContent]="'Current Object: ' + ((renderService.currentObject != null) ? renderService.currentObject.ifcId : '')"></p>
         <p [textContent]="'Selected Object: ' + ((sceneLoader.selectedElement != null) ? sceneLoader.selectedElement.ifcId : '')"></p>
         <button (click)="toggleView()">Toggle View</button>
+        <button (click)="login()">Login</button>
       </tab>
       <tab heading="Lights">
         <div class="row">
@@ -51,8 +54,12 @@ import {SceneService} from "./scene.service";
 })
 export class SceneControlComponent {
 
-  constructor(private renderService: RenderService, private sceneLoader: SceneService) {
+  constructor(private renderService: RenderService, private sceneLoader: SceneService, private bimClient: BimclientService) {
 
+  }
+
+  public login() {
+    this.bimClient.login("stefan.staub@pta.ch", "password");
   }
 
   public toggleView() {
