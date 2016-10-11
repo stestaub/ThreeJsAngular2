@@ -46,6 +46,9 @@ import {SceneService} from "./scene.service";
         Zoom Speed: <input type="number" step="0.1" [value]="renderService.orbitControls.zoomSpeed" (change)="renderService.orbitControls.zoomSpeed = $event.target.value">
         <button (click)="renderService.orbitControls.reset()">Reset Camera</button>
       </tab>
+      <tab heading="Projects">
+        <projects></projects>
+      </tab>
     </tabset>
   </div>
   `

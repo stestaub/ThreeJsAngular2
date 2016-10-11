@@ -9,7 +9,6 @@ import {UserService} from "./user.service";
 
 @Component({
     selector: 'login-component',
-    providers: [UserService],
     template: `
     <h4>Login</h4>
     <button (click)="login()">Login</button>

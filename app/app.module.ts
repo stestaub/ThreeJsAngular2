@@ -9,6 +9,7 @@ import {AmbientLightControlComponent} from "./ambient-light-control.component";
 import {PointLightControlComponent} from "./point-light-control.component";
 import { TabsModule } from "ng2-bootstrap/components/tabs"
 import {LoginComponent} from "./login.component";
+import {ProjectListComponent} from "./Project/project-list.component";
 
 @NgModule({
   imports:      [ BrowserModule, FormsModule, TabsModule, HttpModule, JsonpModule ],
@@ -17,7 +18,8 @@ import {LoginComponent} from "./login.component";
     SceneControlComponent,
     AmbientLightControlComponent,
     PointLightControlComponent,
-      LoginComponent
+      LoginComponent,
+      ProjectListComponent,
   ],
   bootstrap:    [ AppComponent ]
 })
