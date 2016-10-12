@@ -1,10 +1,9 @@
 /**
  * Created by stefan on 9/16/16.
  */
-import { Component, Input, OnInit } from '@angular/core';
-import { ViewerComponent } from "./viewer.component";
-import {RenderService} from "./render.service";
-import {SceneService} from "./scene.service";
+import { Component } from '@angular/core';
+import { Router } from '@angular/router';
+
 import {UserService} from "./user.service";
 
 @Component({
@@ -17,7 +16,7 @@ import {UserService} from "./user.service";
 })
 export class LoginComponent {
 
-    constructor(private userService: UserService) {
+    constructor(private userService: UserService, private router: Router) {
     }
 
     public login() {

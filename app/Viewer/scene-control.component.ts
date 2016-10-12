@@ -26,7 +26,6 @@ import {SceneService} from "./scene.service";
         <p [textContent]="'Current Object: ' + ((renderService.currentObject != null) ? renderService.currentObject.ifcId : '')"></p>
         <p [textContent]="'Selected Object: ' + ((sceneLoader.selectedElement != null) ? sceneLoader.selectedElement.ifcId : '')"></p>
         <button (click)="toggleView()">Toggle View</button>
-        <login-component></login-component>
       </tab>
       <tab heading="Lights">
         <div class="row">
@@ -45,9 +44,6 @@ import {SceneService} from "./scene.service";
         Rotation Speed: <input type="number" step="0.1" [value]="renderService.orbitControls.rotateSpeed" (change)="renderService.orbitControls.rotateSpeed = $event.target.value">
         Zoom Speed: <input type="number" step="0.1" [value]="renderService.orbitControls.zoomSpeed" (change)="renderService.orbitControls.zoomSpeed = $event.target.value">
         <button (click)="renderService.orbitControls.reset()">Reset Camera</button>
-      </tab>
-      <tab heading="Projects">
-        <projects></projects>
       </tab>
     </tabset>
   </div>

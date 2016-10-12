@@ -10,6 +10,7 @@ export class UserService {
     public currentUser: User;
 
     constructor(@Inject(BimServerService) private bimClient:BimServerService) {
+        // this.loggedIn = !!localStorage.getItem('token');
         this.currentUser = new User();
     }
 
@@ -28,6 +29,10 @@ export class UserService {
         );
     }
 
+    public isLoggedIn() : boolean {
+        return this.loggedIn;
+    }
+
     private extractSingle(data: BimServerResponse<User>) : User {
         let user: User = data.result;
         console.log(user);
@@ -37,6 +42,8 @@ export class UserService {
 
     private loginSuccess(response: BimServerResponse<string>) {
         this.bimClient.token = response.result;
+        this.loggedIn = true;
+        // localStorage.setItem('token', response.result);
         this.loadCurrentUser();
         console.log(response.result);
     }
